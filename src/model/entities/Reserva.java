@@ -42,14 +42,22 @@ public class Reserva {
 		return TimeUnit.DAYS.convert(diff , TimeUnit.MILLISECONDS);
 	}
 	
-	public void atualizarDatas(Date checkIn, Date checkOut) {
+	public String atualizarDatas(Date checkIn, Date checkOut) {
+		Date agora = new Date();
+		if (checkIn.before(agora) || checkOut.before(agora)) {
+			return "datas da reserva devem ser futuras";
+		}
+		else if (!checkOut.after(checkIn)) {
+			return "data de check-out deve ser futura ao check-in.";
+		}
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return null;
 	}
 	
 	@Override
 	public String toString() {
-		return "Quarto"
+		return "Quarto "
 				+ numeroDoQuarto
 				+ ", check-in: "
 				+ sdf.format(checkIn)
